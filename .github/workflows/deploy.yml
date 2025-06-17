@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PROJECT_ID: ${{ variables.PROJECT_ID }}
-      IMAGE: gcr.io/${{ variables.PROJECT_ID }}/python-app
-      CLUSTER: ${{ variables.CLUSTER }}
-      REGION: ${{ variables.REGION }}
+      PROJECT_ID: ${{ secrets.PROJECT_ID }}
+      IMAGE: gcr.io/${{ secrets.PROJECT_ID }}/python-app
+      CLUSTER: ${{ secrets.CLUSTER }}
+      REGION: ${{ secrets.REGION }}
 
     steps:
     - name: Checkout source
@@ -21,7 +21,7 @@ jobs:
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
       with:
-        project_id: ${{ variables.PROJECT_ID }}
+        project_id: ${{ secrets.PROJECT_ID }}
         service_account_key: ${{ secrets.GCP_SA_KEY }}
 
     - name: Debug Image name
