@@ -13,17 +13,33 @@ jobs:
       id-token: 'write'
 
     env:
-      PROJECT_ID: ${{ secrets.PROJECT_ID }}
-      IMAGE: us-west1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/python-repo/python-app
-      CLUSTER: ${{ secrets.CLUSTER }}
-      REGION: ${{ secrets.REGION }}
+      PROJECT_ID: ${{ vars.PROJECT_ID }}
+      IMAGE: us-west1-docker.pkg.dev/${{ vars.PROJECT_ID }}/python-repo/python-app
+      CLUSTER: ${{ vars.CLUSTER }}
+      REGION: ${{ vars.REGION }}
 
     steps:
     - name: Checkout source
       uses: actions/checkout@v3
 
-    - name: Debug Image name
+    - name: Set up Google Cloud CLI
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Configure Docker for Artifact Registry
       run: |
-        echo ${{ vars.CLUSTER }}
-        echo ${{ vars.PROJECT_ID }}
-        echo ${{ vars.REGION }}
+        gcloud auth configure-docker us-west1-docker.pkg.dev
+
+    - name: Build and Push Docker Image
+      run: |
+        docker build -t $IMAGE:$GITHUB_SHA .
+        docker push $IMAGE:$GITHUB_SHA
+
+    - name: Get GKE credentials
+      run: |
+        gcloud container clusters get-credentials $CLUSTER --region $REGION --project $PROJECT_ID
+
+    - name: Deploy to GKE via kubectl
+      run: |
+        kubectl set image deployment/python-app python-app=$IMAGE:$GITHUB_SHA --namespace=default
