@@ -22,26 +22,8 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v3
 
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v1
-
-    - name: Authenticate to Google Cloud
-      uses: google-github-actions/auth@v2
-      with:
-        credentials_json: ${{ secrets.GCP_SA_KEY }}
-
     - name: Debug Image name
       run: |
-        echo $PROJECT_ID
-        echo $IMAGE
-        echo $CLUSTER
-
-    - name: Auth Docker to Artifact Registry
-      run: |
-        gcloud auth configure-docker us-west1-docker.pkg.dev
-
-    - name: Build Docker image
-      run: docker build -t $IMAGE:latest .
-
-    - name: Push Docker image
-      run: docker push $IMAGE:latest
+        echo ${{ vars.CLUSTER }}
+        echo ${{ vars.PROJECT_ID }}
+        echo ${{ vars.REGION}}
