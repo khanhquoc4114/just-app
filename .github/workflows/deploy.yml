@@ -42,5 +42,5 @@ jobs:
 
     - name: Deploy to GKE via kubectl
       run: |
-        gcloud components install gke-gcloud-auth-plugin
+        sudo apt-get install google-cloud-cli-gke-gcloud-auth-plugin
         kubectl set image deployment/python-app python-app=$IMAGE:$GITHUB_SHA --namespace=default
