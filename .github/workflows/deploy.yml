@@ -44,6 +44,8 @@ jobs:
 
     - name: Deploy manifest to GKE
       run: |
+        pwd
+        ls -la  
         kubectl apply -f app/k8s/deployment.yaml
         kubectl apply -f app/k8s/service.yaml
 
