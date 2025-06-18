@@ -46,8 +46,8 @@ jobs:
       run: |
         pwd
         ls -la  
-        kubectl apply -f app/k8s/deployment.yaml
-        kubectl apply -f app/k8s/service.yaml
+        kubectl apply -f k8s/deployment.yml
+        kubectl apply -f k8s/service.yml
 
     - name: Deploy to GKE
       run: |
