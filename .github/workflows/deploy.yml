@@ -42,6 +42,11 @@ jobs:
       run: |
         gcloud container clusters get-credentials $CLUSTER --region $REGION --project $PROJECT_ID
 
+    - name: Deploy manifest to GKE
+      run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
+        
     - name: Deploy to GKE
       run: |
         kubectl set image deployment/python-app python-app=$IMAGE:$GITHUB_SHA --namespace=default
