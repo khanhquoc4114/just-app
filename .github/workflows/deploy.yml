@@ -10,7 +10,7 @@ jobs:
 
     env:
       PROJECT_ID: ${{ secrets.PROJECT_ID }}
-      IMAGE: us-west1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/python-repo
+      IMAGE: us-west1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/python-repo/python-app
       CLUSTER: ${{ secrets.CLUSTER }}
       REGION: ${{ secrets.REGION }}
 
@@ -33,7 +33,6 @@ jobs:
     - name: Auth Docker to Artifact Registry
       run: |
         gcloud auth configure-docker us-west1-docker.pkg.dev
-        gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://us-west1-docker.pkg.dev
 
     - name: Build Docker image
       run: docker build -t $IMAGE:latest .
