@@ -30,7 +30,7 @@ jobs:
         echo "IMAGE=$IMAGE"
 
     - name: Auth Docker to GCR
-      run: gcloud auth configure-docker us-west1-docker.pkg.dev
+      run: gcloud auth print-access-token | sudo docker login -u oauth2accesstoken --password-stdin https://us-west1-docker.pkg.dev
 
     - name: Build Docker image
       run: docker build -t $IMAGE:latest .
