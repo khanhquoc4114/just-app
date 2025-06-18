@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: python-app
-        image: gcr.io/the-mesh-461708-c5/python-app:latest
+        image: us-west1-docker.pkg.dev/the-mesh-461708-c5/python-repo/python-app:latest
         ports:
         - containerPort: 8080
