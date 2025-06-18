@@ -46,7 +46,8 @@ jobs:
       run: |
         kubectl apply -f k8s/deployment.yaml
         kubectl apply -f k8s/service.yaml
-        
+      working-directory: ./app
+
     - name: Deploy to GKE
       run: |
         kubectl set image deployment/python-app python-app=$IMAGE:$GITHUB_SHA --namespace=default
