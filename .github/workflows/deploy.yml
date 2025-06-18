@@ -10,7 +10,7 @@ jobs:
 
     env:
       PROJECT_ID: ${{ secrets.PROJECT_ID }}
-      IMAGE: gcr.io/${{ secrets.PROJECT_ID }}/python-app
+      IMAGE: us-west1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/python-images/python-app
       CLUSTER: ${{ secrets.CLUSTER }}
       REGION: ${{ secrets.REGION }}
 
@@ -30,7 +30,7 @@ jobs:
         echo "PROJECT_ID=$PROJECT_ID"
         echo "IMAGE=$IMAGE"
 
-    - name: Auth Docker to GCR
+    - name: Auth Docker to Artifact Registry
       run: gcloud auth configure-docker us-west1-docker.pkg.dev
 
     - name: Build Docker image
