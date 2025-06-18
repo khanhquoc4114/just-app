@@ -26,4 +26,4 @@ jobs:
       run: |
         echo ${{ vars.CLUSTER }}
         echo ${{ vars.PROJECT_ID }}
-        echo ${{ vars.REGION}}
+        echo ${{ vars.REGION }}
