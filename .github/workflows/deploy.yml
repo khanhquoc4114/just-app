@@ -10,7 +10,7 @@ jobs:
 
     env:
       PROJECT_ID: ${{ secrets.PROJECT_ID }}
-      IMAGE: us-west1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/python-repo/python-app
+      IMAGE: us-west1-docker.pkg.dev/${{ secrets.PROJECT_ID }}/python-repo
       CLUSTER: ${{ secrets.CLUSTER }}
       REGION: ${{ secrets.REGION }}
 
