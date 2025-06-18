@@ -8,6 +8,9 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    container:
+      image: google/cloud-sdk:latest
+
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -22,16 +25,15 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v3
 
-    - name: Set up Google Cloud CLI
+    - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v2
       with:
         credentials_json: ${{ secrets.GCP_SA_KEY }}
 
     - name: Configure Docker for Artifact Registry
-      run: |
-        gcloud auth configure-docker us-west1-docker.pkg.dev
+      run: gcloud auth configure-docker us-west1-docker.pkg.dev
 
-    - name: Build and Push Docker Image
+    - name: Build and Push Docker image
       run: |
         docker build -t $IMAGE:$GITHUB_SHA .
         docker push $IMAGE:$GITHUB_SHA
@@ -40,16 +42,6 @@ jobs:
       run: |
         gcloud container clusters get-credentials $CLUSTER --region $REGION --project $PROJECT_ID
 
-    - name: Install gke-gcloud-auth-plugin
+    - name: Deploy to GKE
       run: |
-        echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" \
-          | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-        curl https://packages.cloud.google.com/apt/doc/apt-key.gpg \
-          | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-        sudo apt-get update
-        sudo apt-get install -y google-cloud-sdk-gke-gcloud-auth-plugin
-
-    - name: Deploy to GKE via kubectl
-      run: |
-        sudo apt-get install google-cloud-cli-gke-gcloud-auth-plugin
         kubectl set image deployment/python-app python-app=$IMAGE:$GITHUB_SHA --namespace=default
