@@ -13,15 +13,6 @@ variable "gke_num_nodes" {
   description = "number of gke nodes"
 }
 
-variable "roles" {
-  type    = list(string)
-  default = [
-    "roles/container.developer",
-    "roles/artifactregistry.writer",
-    "roles/artifactregistry.reader"
-  ]
-}
-
 # GKE version
 data "google_container_engine_versions" "gke_version" {
   location       = var.region
@@ -46,6 +37,15 @@ resource "google_compute_subnetwork" "subnet" {
 resource "google_service_account" "gke_node_sa" {
   account_id   = "gke-node-sa"
   display_name = "GKE Node Service Account"
+}
+
+variable "roles" {
+  type    = list(string)
+  default = [
+    "roles/container.developer",
+    "roles/artifactregistry.writer",
+    "roles/artifactregistry.reader"
+  ]
 }
 
 # IAM bindings for the service account
