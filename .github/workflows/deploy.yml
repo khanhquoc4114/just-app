@@ -17,7 +17,7 @@ jobs:
 
     env:
       PROJECT_ID: ${{ vars.PROJECT_ID }}
-      IMAGE: us-west1-docker.pkg.dev/${{ vars.PROJECT_ID }}/python-repo/python-app
+      IMAGE: us-west1-docker.pkg.dev/${{ vars.PROJECT_ID }}/wuoc-repo/python-app
       CLUSTER: ${{ vars.CLUSTER }}
       REGION: ${{ vars.REGION }}
 
@@ -44,8 +44,6 @@ jobs:
 
     - name: Deploy manifest to GKE
       run: |
-        pwd
-        ls -la  
         kubectl apply -f k8s/deployment.yml
         kubectl apply -f k8s/service.yml
 
