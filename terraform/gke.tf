@@ -71,10 +71,10 @@ resource "google_artifact_registry_repository" "repo" {
 
 # GKE Cluster
 resource "google_container_cluster" "primary" {
-  name                     = "${var.name}-gke"
-  location                 = var.zone
-  remove_default_node_pool = true
-  initial_node_count       = 1
+  name               = "${var.name}-gke"
+  location           = var.zone
+  initial_node_count = 1
+  enable_autopilot   = false
 
   network    = google_compute_network.vpc.name
   subnetwork = google_compute_subnetwork.subnet.name
