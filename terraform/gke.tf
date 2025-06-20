@@ -40,11 +40,12 @@ resource "google_service_account" "gke_node_sa" {
 }
 
 variable "roles" {
-  type    = list(string)
+  type = list(string)
   default = [
     "roles/container.developer",
-    "roles/artifactregistry.writer",
-    "roles/artifactregistry.reader"
+    "roles/artifactregistry.admin",
+    "roles/logging.logWriter",
+    "roles/monitoring.metricWriter"
   ]
 }
 
